@@ -2,11 +2,13 @@
 
 # Settings *for Craft CMS*
 
-Cache all your global variables in a separate file.
+Expose an array of cached variables globally. Useful for history API's that cause headaches when variables lose their scope.
+
+### Installation
 
 Create a file and define it's location in the plugins settings. Create an associative array with the variables you want to be able to access globally.
 
-If the first element is an array, that item will be ignored and it's children will be defined as variables instead. This is to help organise your variables.
+If the first value is an array, that key will be ignored and it's children will be defined as separate variables instead. This is to help categorise your variables.
 
 ###Example settings file
 
@@ -29,7 +31,7 @@ If the first element is an array, that item will be ignored and it's children wi
 {% endcache %}
 
 ```
-Will allow you to access the following variables anywhere (apart from Macros)
+This example will allow you to access the following variables anywhere (apart from Macros)
 
 ```
 {{ theme }}
@@ -40,6 +42,26 @@ Will allow you to access the following variables anywhere (apart from Macros)
 {{ mobile }}
 {{ test }}
 {{ telephone }}
+```
+Until I can get the getGlobals thing to work (see Todo), you will need to define the settings in your layout:
+
+```
+{{ settings() }}
+```
+If for any reason you need to ommit a variable, you can pass it like so:
+
+```
+{{ settings('theme') }}
+```
+
+This twig function will automatically define the variables. However, if you just want to return the settings away you can pass in ```true```
+
+```
+{{ settings(true) }}
+```
+or
+```
+{{ settings('theme', true) }}
 ```
 
 ##TODO:
