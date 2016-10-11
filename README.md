@@ -54,7 +54,7 @@ If for any reason you need to ommit a variable, you can pass it like so:
 {{ settings('theme') }}
 ```
 
-This twig function will automatically define the variables. However, if you just want to return the settings away you can pass in ```true```
+This twig function will automatically define the variables. However, if you just want to return the settings array you can pass in ```true```
 
 ```
 {{ settings(true) }}
