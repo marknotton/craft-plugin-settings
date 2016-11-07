@@ -35,15 +35,6 @@ class SettingsPlugin extends BasePlugin {
     return 'https://raw.githubusercontent.com/marknotton/craft-plugin-settings/master/settings/releases.json';
   }
 
-  public function addTwigExtension() {
-    Craft::import('plugins.settings.twigextensions.settings');
-    //Craft::import('plugins.settings.twigextensions.Settings_Globals');
-    return array(
-      new settings(),
-      //new Settings_Globals()
-    );
-  }
-
   public function getSettingsHtml() {
     return craft()->templates->render('settings/settings', array(
       'settings' => $this->getSettings()
@@ -56,20 +47,13 @@ class SettingsPlugin extends BasePlugin {
     );
   }
 
-  // public function init() {
-
-    // var_dump(craft()->settings->settings); die;
-
-    // $twig = craft()->templates->getTwig(null, ['safe_mode' => false]);
-    // foreach(craft()->settings->settings as $var => $val){
-    //   $twig->addGlobal($var, $val);
-    // }
-
-    // $twig->addGlobal('test1', 'test-1-ok');
-
-    // craft()->urlManager->setRouteVariables(
-    //   array('test' => 'test that doesn't work in macros' )
-    // );
-
-  // }
+  public function init() {
+    // This will set the default settings as per the settings.twig file.
+    // Warning: Assigning global variables in this way will overwrite the use of Crafts 'getGlobal();
+    // function accross all installed plugins.
+    if (!craft()->isConsole() && craft()->request->isSiteRequest()) {
+      craft()->settings->setEnvironmentals();
+      craft()->settings->setGlobals();
+    }
+  }
 };
