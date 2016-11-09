@@ -8,3 +8,21 @@
   value: settings.settingsFile,
   errors: settings.getErrors('settingsFile'),
 }) }}
+
+<h2>Environmental Variables to Global Variables</h2>
+<p>Any <a href="https://craftcms.com/docs/config-settings#environmentVariables" target="_blank">Environmental Variables</a> set in the general config file will be made accessible as a global variable within your Twig templating.</p>
+{{ forms.lightswitch({
+  id: 'envVarsToGlobalVars',
+  name: 'envVarsToGlobalVars',
+  on : settings["envVarsToGlobalVars"],
+  errors: settings.getErrors('envVarsToGlobalVars'),
+}) }}
+
+<h2>Cleanup</h2>
+<p>If the first settings key has a value which is an array; the key will be ignored and it's children will be defined as variables instead. This is so you can organise your variables.</p>
+{{ forms.lightswitch({
+  id: 'cleanup',
+  name: 'cleanup',
+  on : settings["cleanup"],
+  errors: settings.getErrors('cleanup'),
+}) }}

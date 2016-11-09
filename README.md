@@ -2,11 +2,9 @@
 
 # Settings *for Craft CMS*
 
-Cache all your global variables in a separate file.
+Cache all your global variables from a separate file.
 
 Create a file and define it's location in the plugins settings. Create an associative array with the variables you want to be able to access globally.
-
-If the first element is an array, that item will be ignored and it's children will be defined as variables instead. This is to help organise your variables.
 
 ###Example settings file
 
@@ -29,7 +27,7 @@ If the first element is an array, that item will be ignored and it's children wi
 {% endcache %}
 
 ```
-Will allow you to access the following variables anywhere (apart from Macros)
+This will allow you to access the following variables anywhere.
 
 ```
 {{ theme }}
@@ -42,6 +40,46 @@ Will allow you to access the following variables anywhere (apart from Macros)
 {{ telephone }}
 ```
 
-##TODO:
+If the first settings key has a value which is an array; the key will be ignored and it's children will be defined as variables instead. This is so you can organise your variables. You can disable this in the plugins settings.
 
-- Have it so Twigs "getGlobals" function defines these variables globally. Allowing them to accessed via Macros too.
+### Environmental Variables to Global Variables
+
+Any [Environmental Variables](https://craftcms.com/docs/config-settings#environmentVariables) set in the general config file will be made accessible as a global variable within your Twig templating. You can disable this in the plugins settings.
+
+### Get
+To simply retreive the current settings array
+
+```
+{% set settings = craft.settings.get() %}
+```
+
+### Reset
+One of the main purposes of this plugin was to accomodate some of the trickier aspects of websites built with a History API. You can reset the global variables on the fly with this:
+
+```
+{{ craft.settings.reset() }}
+```
+
+The reset also returns the current settings after they have been updated when you pass in ```true```.
+
+```
+{% set settings = craft.settings.reset(true) %}
+```
+
+### Advanced
+
+If other plugins want to tap into this feature and make an associative array into global variables; you can call this function.
+
+```
+craft()->settings->addGlobals($this->getGlobals(), 'myPlugin');
+```
+
+Should the site be using a History API, you'll need to pass in your plugins handle so it can be cached. Remember to set a getGlobals function in your plugins root which returns an array;
+
+```
+public function getGlobals() {
+  return array(
+    'test' => 'This is a test'
+  );
+}
+```
