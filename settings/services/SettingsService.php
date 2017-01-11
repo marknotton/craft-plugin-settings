@@ -94,11 +94,11 @@ class SettingsService extends BaseApplicationComponent {
         }
 
         if (!is_null($this->environmentVariables)) {
-          $settings = array_merge($this->environmentVariables, $settings);
-          // $settings = array_unique(array_merge($this->environmentVariables, $settings), SORT_REGULAR);
+          $settings = array_unique(array_merge($this->environmentVariables, $settings), SORT_REGULAR);
         }
 
         $this->settings = $settings;
+
 
       }
 
