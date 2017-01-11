@@ -27,31 +27,25 @@ class SettingsService extends BaseApplicationComponent {
   public function setEnvironmentals() {
 
     if ($this->allowed)  {
+      // If theese don't exist, add them too
+      $fallbackVariables = array(
+        'systemPath' => getcwd(),
+        'uploads'    => '/assets/uploads',
+        'images'     => '/assets/images',
+        'sprites'    => '/assets/images/sprites',
+        'css'        => '/assets/css',
+        'js'         => '/assets/js',
+        'videos'     => '/assets/videos',
+      );
 
-      $envVars = null !== craft()->config->get('environmentVariables') ? craft()->config->get('environmentVariables') : false;
+      $this->environmentVariables = array_unique(array_merge($fallbackVariables, craft()->config->get('environmentVariables')), SORT_REGULAR);
 
-      if ($envVars && craft()->plugins->getPlugin('settings')->getSettings()['envVarsToGlobalVars']) {
-
-        // If theese don't exist, add them too
-        $fallbackVariables = array(
-          'systemPath' => getcwd(),
-          'uploads'    => '/assets/uploads',
-          'images'     => '/assets/images',
-          'sprites'    => '/assets/images/sprites',
-          'css'        => '/assets/css',
-          'js'         => '/assets/js',
-          'videos'     => '/assets/videos',
-        );
-
-        $this->environmentVariables = array_unique(array_merge($fallbackVariables, $envVars), SORT_REGULAR);
-
-        $this->addGlobals($this->environmentVariables);
-      }
+      $this->addGlobals($this->environmentVariables);
     }
   }
 
 
-  public function setGlobals() {
+  public function setGlobals($cleanup=true) {
 
     if ($this->allowed)  {
 
@@ -80,7 +74,7 @@ class SettingsService extends BaseApplicationComponent {
         $settings = json_decode(craft()->templates->render($settingsFile), true);
 
         // Reformat the settings so all first level arrays will have it's childen brought forward one level
-        if (craft()->plugins->getPlugin('settings')->getSettings()['cleanup']) {
+        if ($cleanup === true) {
           $newSettings = [];
 
           if (isset($settings) && is_array($settings)) {
@@ -100,11 +94,11 @@ class SettingsService extends BaseApplicationComponent {
         }
 
         if (!is_null($this->environmentVariables)) {
-          $settings = array_unique(array_merge($this->environmentVariables, $settings), SORT_REGULAR);
+          $settings = array_merge($this->environmentVariables, $settings);
+          // $settings = array_unique(array_merge($this->environmentVariables, $settings), SORT_REGULAR);
         }
 
         $this->settings = $settings;
-
 
       }
 

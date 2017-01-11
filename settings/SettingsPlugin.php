@@ -44,8 +44,6 @@ class SettingsPlugin extends BasePlugin {
   protected function defineSettings() {
     return array(
       'settingsFile' => array(AttributeType::String, 'default' => ''),
-      'envVarsToGlobalVars' => array(AttributeType::Bool, 'default' => true),
-      'cleanup' => array(AttributeType::Bool, 'default' => true),
     );
   }
 
