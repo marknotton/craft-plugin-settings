@@ -36,6 +36,7 @@ class SettingsService extends BaseApplicationComponent {
         'css'        => '/assets/css',
         'js'         => '/assets/js',
         'videos'     => '/assets/videos',
+        'locale'     => craft()->i18n->getLocaleById(craft()->language)
       );
 
       $this->environmentVariables = array_unique(array_merge($fallbackVariables, craft()->config->get('environmentVariables')), SORT_REGULAR);
