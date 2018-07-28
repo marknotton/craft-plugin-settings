@@ -2,11 +2,13 @@
 
 # Settings *for Craft CMS*
 
+> This plugin is no longer maintained. I'm committing to Craft 3 development only. Feel free to use the source code as you like. If you're looking for a Craft 3 version of this plugin, it's likely I've merged parts or all of this plugin into my [Helpers module.](https://github.com/marknotton/craft-module-helpers)
+
 Cache all your global variables from a separate file.
 
 Create a file and define it's location in the plugins settings. Create an associative array with the variables you want to be able to access globally.
 
-###Example settings file
+### Example settings file
 
 ```
 {% cache globally using key 'settings' %}
